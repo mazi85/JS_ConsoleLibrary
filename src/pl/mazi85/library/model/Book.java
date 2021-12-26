@@ -8,11 +8,10 @@ public class Book extends Publication {
     private String isbn;
 
     public Book(String title, String author, int releaseDate, int pages, String publisher) {
-        setTitle(title);
+       super(title,releaseDate,publisher);
         this.author = author;
-        setYear(releaseDate);
         this.pages = pages;
-        setPublisher(publisher);
+
     }
 
     public Book(String title, String author, int releaseDate, int pages, String publisher, String isbn) {
