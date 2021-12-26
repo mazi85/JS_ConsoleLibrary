@@ -1,5 +1,7 @@
 package pl.mazi85.library.model;
 
+import java.util.Objects;
+
 public class Publication {
 
     private String publisher;
@@ -20,6 +22,7 @@ public class Publication {
     int getYear() {
         return year;
     }
+
     void setYear(int year) {
         this.year = year;
     }
@@ -30,5 +33,23 @@ public class Publication {
 
     void setTitle(String title) {
         this.title = title;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Publication that = (Publication) o;
+        return year == that.year && Objects.equals(publisher, that.publisher) && Objects.equals(title, that.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(publisher, year, title);
+    }
+
+    @Override
+    public String toString() {
+        return title+ ", " + publisher + ", " + year;
     }
 }
