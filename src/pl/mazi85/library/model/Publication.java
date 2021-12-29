@@ -2,7 +2,7 @@ package pl.mazi85.library.model;
 
 import java.util.Objects;
 
-public class Publication {
+abstract public class Publication {
 
     private String publisher;
     private int year;
