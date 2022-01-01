@@ -16,7 +16,7 @@ public class Library implements Serializable {
         for (int i = 0; i < publicationsNumber; i++) {
             result[i]=publications[i];
         }
-        return publications;
+        return result;
     }
 
     public void addPublication(Publication publication){
@@ -27,15 +27,5 @@ public class Library implements Serializable {
             publications[publicationsNumber]=publication;
             publicationsNumber++;
     }
-
-    public void addBook(Book book){
-        addPublication(book);
-    }
-
-    public void addMagazine(Magazine magazine){
-        addPublication(magazine);
-    }
-
-
 
 }

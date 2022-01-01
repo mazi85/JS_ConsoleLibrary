@@ -53,4 +53,6 @@ abstract public class Publication implements Serializable {
     public String toString() {
         return title+ ", " + publisher + ", " + year;
     }
+
+    public abstract String toCsv();
 }
