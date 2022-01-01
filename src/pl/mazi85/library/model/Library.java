@@ -1,11 +1,9 @@
-package pl.mazi85.library.data;
+package pl.mazi85.library.model;
 
 
-import pl.mazi85.library.model.Book;
-import pl.mazi85.library.model.Magazine;
-import pl.mazi85.library.model.Publication;
+import java.io.Serializable;
 
-public class Library {
+public class Library implements Serializable {
 
 
     private static final int MAX_PUBLICATIONS = 2000;

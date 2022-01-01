@@ -1,6 +1,10 @@
 package pl.mazi85.library.app;
 
-import pl.mazi85.library.data.Library;
+import pl.mazi85.library.exception.DataExportException;
+import pl.mazi85.library.exception.DataImportException;
+import pl.mazi85.library.io.file.FileManager;
+import pl.mazi85.library.io.file.FileManagerBuilder;
+import pl.mazi85.library.model.Library;
 import pl.mazi85.library.exception.NoSuchOptionException;
 import pl.mazi85.library.io.ConsolePrinter;
 import pl.mazi85.library.io.DataReader;
@@ -14,8 +18,23 @@ public class LibraryControl {
 
     private ConsolePrinter printer = new ConsolePrinter();
     private DataReader dataReader = new DataReader(printer);
+    private FileManager fileManager;
+    private Library library;
 
-    private Library library = new Library();
+    public LibraryControl() {
+        fileManager = new FileManagerBuilder(printer, dataReader).build();
+
+        try {
+            library = fileManager.importData();
+            printer.printLine("Zaimportowane dane z pliku.");
+        }catch (DataImportException e){
+            printer.printLine(e.getMessage());
+            printer.printLine("Zainicjonowano nową bazę.");
+            library = new Library();
+        }
+    }
+
+
 
     public void controlLoop(){
         Option option;
@@ -74,6 +93,14 @@ public class LibraryControl {
     }
 
     private void exit() {
+        try{
+        fileManager.exportData(library);
+        printer.printLine("Eksport danych do pliku zakończona powodzeniem");}
+        catch (DataExportException e){
+            e.getMessage();
+        }
+
+
         printer.printLine("Koniec programu, papa!");
         dataReader.close();
     }

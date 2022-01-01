@@ -1,8 +1,9 @@
 package pl.mazi85.library.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-abstract public class Publication {
+abstract public class Publication implements Serializable {
 
     private String publisher;
     private int year;

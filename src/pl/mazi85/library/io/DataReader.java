@@ -65,4 +65,7 @@ public class DataReader {
             sc.nextLine();
         }
     }
+    public String getString(){
+        return sc.nextLine();
+    }
 }
