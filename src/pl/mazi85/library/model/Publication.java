@@ -9,7 +9,7 @@ abstract public class Publication implements Serializable {
     private int year;
     private String title;
 
-    Publication(String publisher, int year, String title) {
+    Publication(String title, int year, String publisher) {
         this.publisher = publisher;
         this.year = year;
         this.title = title;
