@@ -12,7 +12,9 @@ import pl.mazi85.library.io.DataReader;
 import pl.mazi85.library.model.Book;
 import pl.mazi85.library.model.Magazine;
 import pl.mazi85.library.model.Publication;
+import pl.mazi85.library.model.comparator.DateComparator;
 
+import java.util.Arrays;
 import java.util.InputMismatchException;
 
 public class LibraryControl {
@@ -106,14 +108,13 @@ public class LibraryControl {
         catch (DataExportException e){
             e.getMessage();
         }
-
-
         printer.printLine("Koniec programu, papa!");
         dataReader.close();
     }
 
     private void printBooks() {
         Publication[] publications = library.getPublications();
+        Arrays.sort(publications, new DateComparator());
         printer.printBooks(publications);
     }
 
@@ -146,6 +147,7 @@ public class LibraryControl {
 
     private void printMagazines() {
         Publication[] publications = library.getPublications();
+        Arrays.sort(publications, new DateComparator());
         printer.printMagazines(publications);
     }
     private void addMagazine() {

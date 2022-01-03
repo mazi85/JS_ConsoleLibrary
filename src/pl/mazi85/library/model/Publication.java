@@ -3,7 +3,7 @@ package pl.mazi85.library.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-abstract public class Publication implements Serializable {
+abstract public class Publication implements Serializable,Comparable<Publication> {
 
     private String publisher;
     private int year;
@@ -20,7 +20,7 @@ abstract public class Publication implements Serializable {
     void setPublisher(String publisher) {
         this.publisher = publisher;
     }
-    int getYear() {
+    public int getYear() {
         return year;
     }
 
@@ -28,7 +28,7 @@ abstract public class Publication implements Serializable {
         this.year = year;
     }
 
-    String getTitle() {
+    public String getTitle() {
         return title;
     }
 
@@ -53,6 +53,10 @@ abstract public class Publication implements Serializable {
     public String toString() {
         return title+ ", " + publisher + ", " + year;
     }
-
     public abstract String toCsv();
+
+    @Override
+    public int compareTo(Publication publication) {
+        return title.compareToIgnoreCase(publication.title);
+    }
 }
