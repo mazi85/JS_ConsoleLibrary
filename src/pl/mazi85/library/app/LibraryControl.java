@@ -1,20 +1,11 @@
 package pl.mazi85.library.app;
 
-import pl.mazi85.library.exception.DataExportException;
-import pl.mazi85.library.exception.DataImportException;
-import pl.mazi85.library.exception.InvalidDataException;
+import pl.mazi85.library.exception.*;
 import pl.mazi85.library.io.file.FileManager;
 import pl.mazi85.library.io.file.FileManagerBuilder;
-import pl.mazi85.library.model.Library;
-import pl.mazi85.library.exception.NoSuchOptionException;
+import pl.mazi85.library.model.*;
 import pl.mazi85.library.io.ConsolePrinter;
 import pl.mazi85.library.io.DataReader;
-import pl.mazi85.library.model.Book;
-import pl.mazi85.library.model.Magazine;
-import pl.mazi85.library.model.Publication;
-import pl.mazi85.library.model.comparator.DateComparator;
-
-import java.util.Arrays;
 import java.util.InputMismatchException;
 
 public class LibraryControl {
@@ -66,6 +57,12 @@ public class LibraryControl {
                 case DELETE_MAGAZINES:
                     deleteMagazine();
                     break;
+                case ADD_USER:
+                    addUser();
+                    break;
+                case PRINT_USER:
+                    printUsers();
+                    break;
                 case EXIT:
                     exit();
                     break;
@@ -74,6 +71,19 @@ public class LibraryControl {
             }
         }while (option != Option.EXIT);
 
+    }
+
+    private void printUsers() {
+        printer.printUsers(library.getUsers().values());
+    }
+
+    private void addUser() {
+       LibraryUser libraryUser =  dataReader.createLibraryUser();
+       try{
+        library.addUser(libraryUser);}
+       catch (UserAlreadyExistsException e){
+           printer.printLine(e.getMessage());
+       }
     }
 
     private void printOptions() {
@@ -113,9 +123,8 @@ public class LibraryControl {
     }
 
     private void printBooks() {
-        Publication[] publications = library.getPublications();
-        Arrays.sort(publications, new DateComparator());
-        printer.printBooks(publications);
+
+        printer.printBooks(library.getPublications().values());
     }
 
     private void addBook() {
@@ -146,9 +155,8 @@ public class LibraryControl {
     }
 
     private void printMagazines() {
-        Publication[] publications = library.getPublications();
-        Arrays.sort(publications, new DateComparator());
-        printer.printMagazines(publications);
+
+        printer.printMagazines(library.getPublications().values());
     }
     private void addMagazine() {
         try{
@@ -183,7 +191,9 @@ public class LibraryControl {
         PRINT_BOOKS(3, "wyświetl dostępne książki"),
         PRINT_MAGAZINES(4, "wyświetl dostępne magazyny"),
         DELETE_BOOKS(5, "usuń książke"),
-        DELETE_MAGAZINES(6, "usuń magazyn");
+        DELETE_MAGAZINES(6, "usuń magazyn"),
+        ADD_USER(7,"dodaj czytelnika"),
+        PRINT_USER(8, "Wyświetl czytelników");
 
 
         private final int number;

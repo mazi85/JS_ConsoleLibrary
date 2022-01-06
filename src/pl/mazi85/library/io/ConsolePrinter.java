@@ -1,12 +1,15 @@
 package pl.mazi85.library.io;
 
 import pl.mazi85.library.model.Book;
+import pl.mazi85.library.model.LibraryUser;
 import pl.mazi85.library.model.Magazine;
 import pl.mazi85.library.model.Publication;
 
+import java.util.Collection;
+
 public class ConsolePrinter {
 
-    public void printBooks(Publication[] publications){
+    public void printBooks(Collection<Publication> publications){
         int countBook=0;
 
         for (Publication publication: publications) {
@@ -15,12 +18,12 @@ public class ConsolePrinter {
                 countBook++;}
         }
         if (countBook==0){
-            System.out.println("Brak książek w bibliotece");
+            printLine("Brak książek w bibliotece");
         }
 
     }
 
-    public void printMagazines(Publication[] publications){
+    public void printMagazines(Collection<Publication> publications){
         int countMagazine=0;
 
         for (Publication publication: publications) {
@@ -29,9 +32,16 @@ public class ConsolePrinter {
                 countMagazine++;}
         }
         if (countMagazine==0){
-            System.out.println("Brak magazynów w bibliotece");
+            printLine("Brak magazynów w bibliotece");
         }
 
+    }
+
+    public void printUsers (Collection<LibraryUser> users){
+        for (LibraryUser user : users) {
+            printLine(user.toString());
+
+        }
     }
 
     public void printLine(String string){
