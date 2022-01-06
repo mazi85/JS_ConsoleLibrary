@@ -3,7 +3,7 @@ package pl.mazi85.library.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-public abstract class User implements Serializable {
+public abstract class User implements Serializable,CsvConvertible {
 
     private String firstName;
     private String lastName;
@@ -57,5 +57,4 @@ public abstract class User implements Serializable {
         return firstName +" "+ lastName +" "+ pesel;
     }
 
-    public abstract String toCsv();
 }

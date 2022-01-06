@@ -95,38 +95,31 @@ public class CsvFileManager implements FileManager {
 
     @Override
     public void exportData(Library library) {
-
         exportPublication(library);
         exportUsers(library);
     }
 
     private void exportUsers(Library library) {
         Collection<LibraryUser> users = library.getUsers().values();
-        try(var fileWriter = new FileWriter(USERS_FILE_NAME);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter) ) {
-
-            for (LibraryUser user : users) {
-                bufferedWriter.write(user.toCsv());
-                bufferedWriter.newLine();
-            }
-
-        } catch (IOException e) {
-            throw new DataExportException("Błąd zapisu do pliku "+ USERS_FILE_NAME);
-        }
+        exportToCSv(users, USERS_FILE_NAME);
     }
 
     private void exportPublication(Library library) {
         Collection<Publication> publications = library.getPublications().values();
-        try(var fileWriter = new FileWriter(FILE_NAME);
+        exportToCSv(publications, FILE_NAME);
+    }
+
+    private <T extends CsvConvertible> void exportToCSv(Collection<T> collection, String fileName) {
+        try(var fileWriter = new FileWriter(fileName);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter) ) {
 
-            for (Publication publication : publications) {
-                bufferedWriter.write(publication.toCsv());
+            for (T element : collection) {
+                bufferedWriter.write(element.toCsv());
                 bufferedWriter.newLine();
             }
 
         } catch (IOException e) {
-            throw new DataExportException("Błąd zapisu do pliku "+ FILE_NAME);
+            throw new DataExportException("Błąd zapisu do pliku "+ fileName);
         }
     }
 }
