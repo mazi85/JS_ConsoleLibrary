@@ -6,6 +6,9 @@ import pl.mazi85.library.io.file.FileManagerBuilder;
 import pl.mazi85.library.model.*;
 import pl.mazi85.library.io.ConsolePrinter;
 import pl.mazi85.library.io.DataReader;
+import pl.mazi85.library.model.comparator.AlphabeticalTitleComparator;
+
+import java.util.Comparator;
 import java.util.InputMismatchException;
 
 public class LibraryControl {
@@ -74,7 +77,12 @@ public class LibraryControl {
     }
 
     private void printUsers() {
-        printer.printUsers(library.getUsers().values());
+        printer.printUsers(library.getSortedUsers(new Comparator<LibraryUser>() {
+            @Override
+            public int compare(LibraryUser user, LibraryUser t1) {
+                return user.getLastName().compareTo(t1.getLastName());
+            }
+        }));
     }
 
     private void addUser() {
@@ -124,7 +132,7 @@ public class LibraryControl {
 
     private void printBooks() {
 
-        printer.printBooks(library.getPublications().values());
+        printer.printBooks(library.getSortedPublications(new AlphabeticalTitleComparator()));
     }
 
     private void addBook() {
@@ -156,7 +164,7 @@ public class LibraryControl {
 
     private void printMagazines() {
 
-        printer.printMagazines(library.getPublications().values());
+        printer.printMagazines(library.getSortedPublications(new AlphabeticalTitleComparator()));
     }
     private void addMagazine() {
         try{
