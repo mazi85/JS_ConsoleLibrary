@@ -1,17 +1,18 @@
 package pl.mazi85.library.model;
 
 import java.io.Serializable;
+import java.time.Year;
 import java.util.Objects;
 
 abstract public class Publication implements Serializable,Comparable<Publication>,CsvConvertible {
 
     private String publisher;
-    private int year;
+    private Year year;
     private String title;
 
     Publication(String title, int year, String publisher) {
         this.publisher = publisher;
-        this.year = year;
+        this.year = Year.of(year);
         this.title = title;
     }
     String getPublisher() {
@@ -20,11 +21,11 @@ abstract public class Publication implements Serializable,Comparable<Publication
     void setPublisher(String publisher) {
         this.publisher = publisher;
     }
-    public int getYear() {
+    public Year getYear() {
         return year;
     }
 
-    void setYear(int year) {
+    void setYear(Year year) {
         this.year = year;
     }
 
@@ -41,7 +42,7 @@ abstract public class Publication implements Serializable,Comparable<Publication
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Publication that = (Publication) o;
-        return year == that.year && Objects.equals(publisher, that.publisher) && Objects.equals(title, that.title);
+        return Objects.equals(publisher, that.publisher) && Objects.equals(year, that.year) && Objects.equals(title, that.title);
     }
 
     @Override
