@@ -23,18 +23,16 @@ public class CsvFileManager implements FileManager {
     }
 
     private void importUsers(Library library) {
-        try(Scanner fileReader = new Scanner(new File(USERS_FILE_NAME))){
 
-            while (fileReader.hasNextLine()){
-                String line = fileReader.nextLine();
-                LibraryUser libraryUser = createUserFromString(line);
-                library.addUser(libraryUser);
-            }
-
-        }catch (FileNotFoundException e){
+        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(USERS_FILE_NAME))) {
+            bufferedReader.lines()
+                    .map(this::createUserFromString)
+                    .forEach(library::addUser);
+        } catch (FileNotFoundException e) {
             throw new DataImportException("Brak pliku "+USERS_FILE_NAME);
+        } catch (IOException e) {
+            throw new DataImportException("Błąd odczytu pliku "+USERS_FILE_NAME);
         }
-
     }
 
     private LibraryUser createUserFromString(String csvText) {
@@ -48,16 +46,16 @@ public class CsvFileManager implements FileManager {
 
     private void importPublications(Library library) {
 
-        try(Scanner fileReader = new Scanner(new File(FILE_NAME))){
+        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_NAME))) {
+            bufferedReader.lines()
+                    .map(this::createObjectFromString)
+                    .forEach(library::addPublication);
 
-            while (fileReader.hasNextLine()){
-                String line = fileReader.nextLine();
-                Publication publication = createObjectFromString(line);
-                library.addPublication(publication);
-            }
 
-        }catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             throw new DataImportException("Brak pliku "+FILE_NAME);
+        } catch (IOException e) {
+            throw new DataImportException("Błąd odczytu pliku "+FILE_NAME);
         }
 
     }
@@ -76,9 +74,9 @@ public class CsvFileManager implements FileManager {
     private Magazine createMagazine(String[] split) {
         String title = split[1];
         String publisher = split[2];
-        int year = Integer.valueOf(split[3]);
-        int month = Integer.valueOf(split[4]);
-        int day = Integer.valueOf(split[5]);
+        int year = Integer.parseInt(split[3]);
+        int month = Integer.parseInt(split[4]);
+        int day = Integer.parseInt(split[5]);
         String language = split[6];
         return new Magazine(title,publisher,language,year,month,day);
     }
@@ -86,9 +84,9 @@ public class CsvFileManager implements FileManager {
     private Book createBook(String[] split) {
         String title = split[1];
         String publisher = split[2];
-        int year = Integer.valueOf(split[3]);
+        int year = Integer.parseInt(split[3]);
         String author = split[4];
-        int pages = Integer.valueOf(split[5]);
+        int pages = Integer.parseInt(split[5]);
         String isbn = split[6];
         return new Book(title,author,year,pages,publisher,isbn);
     }
