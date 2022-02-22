@@ -10,6 +10,7 @@ import pl.mazi85.library.io.DataReader;
 
 import java.util.Comparator;
 import java.util.InputMismatchException;
+import java.util.Optional;
 
 public class LibraryControl {
 
@@ -69,12 +70,17 @@ public class LibraryControl {
                 case EXIT:
                     exit();
                     break;
+                case FIND_BOOK:
+                    findBook();
+                    break;
                 default:
                     printer.printLine("nie ma takiej opcji wprowadz ponownie: ");
             }
         }while (option != Option.EXIT);
 
     }
+
+
 
     private void printUsers() {
         printer.printUsers(library.getSortedUsers(Comparator.comparing(User::getLastName)));
@@ -188,6 +194,16 @@ public class LibraryControl {
 
     }
 
+    private void findBook() {
+
+        System.out.println("Podaj tytuł publikacji:");
+        String title = dataReader.getString();
+        library.getPublicationByTitle(title).
+                ifPresentOrElse(p-> System.out.println(p),()-> System.out.println("Nie ma takiej publikacji"));
+
+
+    }
+
     private enum Option {
         EXIT(0, "wyjście z programu"),
         ADD_BOOK(1, "dodanie nowej książki"),
@@ -197,7 +213,8 @@ public class LibraryControl {
         DELETE_BOOKS(5, "usuń książke"),
         DELETE_MAGAZINES(6, "usuń magazyn"),
         ADD_USER(7,"dodaj czytelnika"),
-        PRINT_USER(8, "Wyświetl czytelników");
+        PRINT_USER(8, "Wyświetl czytelników"),
+        FIND_BOOK(9,"Wyszukaj książkę");
 
 
         private final int number;
